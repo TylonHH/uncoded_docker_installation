@@ -1,0 +1,93 @@
+#!/bin/bash
+set -e
+
+USERNAME="uncoded"
+APP_DIR="/home/$USERNAME/uncoded-bot"
+REPO_URL="https://github.com/deinname/uncoded-bot.git"
+ENV_FILE="$APP_DIR/.env"
+
+# Prüfen ob root
+if [ "$(id -u)" -ne 0 ]; then
+  echo "Bitte als root ausführen (sudo bash install.sh [update])"
+  exit 1
+fi
+
+# Funktion: Update
+update_bot() {
+  echo "=== Bot-Update starten ==="
+  echo "WICHTIG: Stelle sicher, dass der Bot in Telegram mit /tos false beendet wurde!"
+  echo "Drücke [Enter], um fortzufahren..."
+  read
+
+  cd $APP_DIR
+  echo "--- Repository aktualisieren ---"
+  sudo -u $USERNAME git pull
+
+  echo "--- Neues Image ziehen ---"
+  sudo -u $USERNAME docker compose pull
+
+  echo "--- Container neu starten ---"
+  sudo -u $USERNAME docker compose up -d
+
+  echo "=== Update abgeschlossen ==="
+  sudo -u $USERNAME docker compose ps
+  exit 0
+}
+
+# Prüfen ob Update-Flag
+if [ "$1" == "update" ]; then
+  update_bot
+fi
+
+# --- Installation ---
+echo "=== Neuen Benutzer $USERNAME anlegen ==="
+if id "$USERNAME" &>/dev/null; then
+  echo "Benutzer $USERNAME existiert bereits, überspringe..."
+else
+  adduser --disabled-password --gecos "" $USERNAME
+  usermod -aG sudo $USERNAME
+  usermod -aG docker $USERNAME || true
+fi
+
+echo "=== Pakete installieren ==="
+apt-get update -y
+apt-get install -y git docker.io docker-compose
+
+echo "=== Repository einrichten ==="
+sudo -u $USERNAME mkdir -p $APP_DIR
+if [ ! -d "$APP_DIR/.git" ]; then
+  sudo -u $USERNAME git clone $REPO_URL $APP_DIR
+else
+  cd $APP_DIR && sudo -u $USERNAME git pull
+fi
+
+cd $APP_DIR
+
+echo "=== ENV-Datei konfigurieren ==="
+if [ -f "$ENV_FILE" ]; then
+  echo ".env existiert schon, überschreibe..."
+  rm "$ENV_FILE"
+fi
+
+read -p "Binance API_KEY: " API_KEY
+read -p "Binance API_SECRET: " API_SECRET
+read -p "Telegram Group ID: " TELEGRAM_GROUP_ID
+read -p "Telegram Owner ID: " TELEGRAM_OWNER_ID
+read -p "Telegram Bot Token: " TELEGRAM_BOT_TOKEN
+
+cat <<EOF > "$ENV_FILE"
+# --- Automatisch erzeugt ---
+API_KEY=$API_KEY
+API_SECRET=$API_SECRET
+TELEGRAM_GROUP_ID=$TELEGRAM_GROUP_ID
+TELEGRAM_OWNER_ID=$TELEGRAM_OWNER_ID
+TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN
+EOF
+
+chown $USERNAME:$USERNAME "$ENV_FILE"
+
+echo "=== Container starten ==="
+sudo -u $USERNAME docker compose up -d
+
+echo "=== Installation abgeschlossen ==="
+sudo -u $USERNAME docker compose ps
