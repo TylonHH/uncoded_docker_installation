@@ -3,7 +3,7 @@ set -e
 
 USERNAME="uncoded"
 APP_DIR="/home/$USERNAME/uncoded-bot"
-REPO_URL="https://github.com/TylonHH/uncoded_docker_installation.git"
+REPO_URL="https://github.com/deinname/uncoded-bot.git"
 ENV_FILE="$APP_DIR/.env"
 
 # Prüfen ob root
@@ -46,12 +46,14 @@ if id "$USERNAME" &>/dev/null; then
 else
   adduser --disabled-password --gecos "" $USERNAME
   usermod -aG sudo $USERNAME
-  usermod -aG docker $USERNAME || true
 fi
 
 echo "=== Pakete installieren ==="
-apt-get update -y
+apt-get update
 apt-get install -y git docker.io docker-compose
+
+echo "=== Benutzer $USERNAME zur docker-Gruppe hinzufügen ==="
+usermod -aG docker $USERNAME
 
 echo "=== Repository einrichten ==="
 sudo -u $USERNAME mkdir -p $APP_DIR
