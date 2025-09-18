@@ -54,7 +54,7 @@ fi
 
 echo "=== Docker prüfen ==="
 if command -v docker &>/dev/null && docker compose version &>/dev/null; then
-  echo "Docker und Compose V2 sind bereits installiert, überspringe Installation."
+  echo "Docker CE + Compose V2 sind bereits installiert, überspringe Neuinstallation."
 else
   echo "=== Entferne alte Docker-Pakete ==="
   apt-get purge -y docker docker-engine docker.io docker-compose containerd runc || true
