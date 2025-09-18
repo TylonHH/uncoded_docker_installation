@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+export DEBIAN_FRONTEND=noninteractive
 
 USERNAME="uncoded_test"
 APP_DIR="/home/$USERNAME/uncoded-bot"
