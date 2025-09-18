@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-USERNAME="uncoded"
+USERNAME="uncoded_test"
 APP_DIR="/home/$USERNAME/uncoded-bot"
 REPO_URL="https://github.com/TylonHH/uncoded_docker_installation.git"
 ENV_FILE="$APP_DIR/.env"
