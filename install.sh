@@ -15,7 +15,7 @@ fi
 # Funktion: Update
 update_bot() {
   echo "=== Bot-Update starten ==="
-  echo "WICHTIG: Stelle sicher, dass der Bot in Telegram mit /tos false beendet wurde!"
+  echo "WICHTIG: Stelle sicher, dass der Bot in Telegram mit TOS = false beendet wurde!"
   echo "Drücke [Enter], um fortzufahren..."
   read
 
@@ -48,9 +48,26 @@ else
   usermod -aG sudo $USERNAME
 fi
 
-echo "=== Pakete installieren ==="
+echo "=== Alte Docker-Pakete entfernen (falls vorhanden) ==="
+apt-get remove -y docker docker-engine docker.io containerd runc docker-compose || true
+
+echo "=== Voraussetzungen installieren ==="
 apt-get update
-apt-get install -y git docker.io docker-compose
+apt-get install -y ca-certificates curl gnupg lsb-release git
+
+echo "=== Docker Repository hinzufügen ==="
+mkdir -p /etc/apt/keyrings
+if [ ! -f /etc/apt/keyrings/docker.gpg ]; then
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+fi
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+echo "=== Docker & Compose V2 installieren ==="
+apt-get update
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 echo "=== Benutzer $USERNAME zur docker-Gruppe hinzufügen ==="
 usermod -aG docker $USERNAME
