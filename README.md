@@ -33,7 +33,7 @@ Danach werden:
 
 ## Update
 
-Vor einem Update **immer zuerst den Bot in Telegram beenden**. (TOS = flase)
+Vor einem Update **immer zuerst den Bot in Telegram beenden**. (TOS = false)
 
 Dann:
 
