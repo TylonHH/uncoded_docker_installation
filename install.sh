@@ -94,7 +94,10 @@ EOF
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
     $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-  echo "=== Docker & Compose V2 installieren ==="
+echo "=== Docker & Compose V2 prüfen/ggf. installieren ==="
+if command -v docker &>/dev/null && docker compose version &>/dev/null; then
+  echo "Docker CE + Compose V2 sind bereits installiert, überspringe Neuinstallation."
+else
   apt-get update
   apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 fi
