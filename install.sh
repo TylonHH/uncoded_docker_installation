@@ -4,7 +4,7 @@ set -e
 USERNAME="uncoded_test"
 APP_DIR="/home/$USERNAME/uncoded-bot"
 REPO_URL="https://github.com/TylonHH/uncoded_docker_installation.git"
-BRANCH="dev"   # <--- hier die gewünschte Branch einstellen (z.B. "main" oder "dev")
+BRANCH="dev"   # <--- hier Branch einstellen (z.B. "main" oder "dev")
 ENV_FILE="$APP_DIR/.env"
 
 # Prüfen ob root
@@ -135,6 +135,5 @@ sudo -u $USERNAME docker compose up -d
 echo "=== Installation abgeschlossen ==="
 sudo -u $USERNAME docker compose ps
 
-# Optional: Compose-Version prüfen
 echo "=== Prüfe Docker Compose Version ==="
 docker compose version
