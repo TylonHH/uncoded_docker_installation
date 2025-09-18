@@ -12,7 +12,7 @@ Dieses Repository richtet den [uncoded-trading-bot](https://t.me/unCoded_bot?sta
 Führe auf deinem Server als root aus:
 
 ```bash
-wget https://raw.githubusercontent.com/deinname/uncoded-bot/main/install.sh
+wget https://raw.githubusercontent.com/TylonHH/uncoded_docker_installation/refs/heads/main/install.sh
 sudo bash install.sh
 ````
 
