@@ -4,6 +4,7 @@ set -e
 USERNAME="uncoded_test"
 APP_DIR="/home/$USERNAME/uncoded-bot"
 REPO_URL="https://github.com/TylonHH/uncoded_docker_installation.git"
+BRANCH="dev"   # <--- hier die gewünschte Branch einstellen (z.B. "main" oder "dev")
 ENV_FILE="$APP_DIR/.env"
 
 # Prüfen ob root
@@ -21,7 +22,9 @@ update_bot() {
 
   cd $APP_DIR
   echo "--- Repository aktualisieren ---"
-  sudo -u $USERNAME git pull
+  sudo -u $USERNAME git fetch origin
+  sudo -u $USERNAME git checkout $BRANCH
+  sudo -u $USERNAME git pull origin $BRANCH
 
   echo "--- Neues Image ziehen ---"
   sudo -u $USERNAME docker compose pull
@@ -77,9 +80,12 @@ usermod -aG docker $USERNAME
 echo "=== Repository einrichten ==="
 sudo -u $USERNAME mkdir -p $APP_DIR
 if [ ! -d "$APP_DIR/.git" ]; then
-  sudo -u $USERNAME git clone $REPO_URL $APP_DIR
+  sudo -u $USERNAME git clone -b $BRANCH --single-branch $REPO_URL $APP_DIR
 else
-  cd $APP_DIR && sudo -u $USERNAME git pull
+  cd $APP_DIR
+  sudo -u $USERNAME git fetch origin
+  sudo -u $USERNAME git checkout $BRANCH
+  sudo -u $USERNAME git pull origin $BRANCH
 fi
 
 cd $APP_DIR
