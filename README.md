@@ -50,6 +50,13 @@ Das Skript macht automatisch:
 
 ## Verwaltung
 
+* vorher in den Ordner wechseln
+
+  ```bash
+  cd uncoded-bot
+  ```
+
+
 * Containerstatus:
 
   ```bash
