@@ -50,6 +50,8 @@ fi
 
 echo "=== Alte Docker-Pakete entfernen (falls vorhanden) ==="
 apt-get remove -y docker docker-engine docker.io containerd runc docker-compose || true
+apt-get purge -y docker* containerd* runc* || true
+apt-get autoremove -y
 
 echo "=== Voraussetzungen installieren ==="
 apt-get update
@@ -126,3 +128,7 @@ sudo -u $USERNAME docker compose up -d
 
 echo "=== Installation abgeschlossen ==="
 sudo -u $USERNAME docker compose ps
+
+# Optional: Compose-Version prüfen
+echo "=== Prüfe Docker Compose Version ==="
+docker compose version
