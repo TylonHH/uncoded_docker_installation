@@ -4,6 +4,7 @@ set -e
 USERNAME="uncoded_test"
 APP_DIR="/home/$USERNAME/uncoded-bot"
 REPO_URL="https://github.com/TylonHH/uncoded_docker_installation.git"
+BRANCH="dev"   # <--- hier die gewünschte Branch einstellen (z.B. "main" oder "dev")
 ENV_FILE="$APP_DIR/.env"
 
 # Prüfen ob root
@@ -15,13 +16,15 @@ fi
 # Funktion: Update
 update_bot() {
   echo "=== Bot-Update starten ==="
-  echo "WICHTIG: Stelle sicher, dass der Bot in Telegram mit /tos false beendet wurde!"
+  echo "WICHTIG: Stelle sicher, dass der Bot in Telegram mit TOS = false beendet wurde!"
   echo "Drücke [Enter], um fortzufahren..."
   read
 
   cd $APP_DIR
   echo "--- Repository aktualisieren ---"
-  sudo -u $USERNAME git pull
+  sudo -u $USERNAME git fetch origin
+  sudo -u $USERNAME git checkout $BRANCH
+  sudo -u $USERNAME git pull origin $BRANCH
 
   echo "--- Neues Image ziehen ---"
   sudo -u $USERNAME docker compose pull
@@ -48,9 +51,28 @@ else
   usermod -aG sudo $USERNAME
 fi
 
-echo "=== Pakete installieren ==="
+echo "=== Alte Docker-Pakete entfernen (falls vorhanden) ==="
+apt-get remove -y docker docker-engine docker.io containerd runc docker-compose || true
+apt-get purge -y docker* containerd* runc* || true
+apt-get autoremove -y
+
+echo "=== Voraussetzungen installieren ==="
 apt-get update
-apt-get install -y git docker.io docker-compose
+apt-get install -y ca-certificates curl gnupg lsb-release git
+
+echo "=== Docker Repository hinzufügen ==="
+mkdir -p /etc/apt/keyrings
+if [ ! -f /etc/apt/keyrings/docker.gpg ]; then
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+fi
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+echo "=== Docker & Compose V2 installieren ==="
+apt-get update
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 echo "=== Benutzer $USERNAME zur docker-Gruppe hinzufügen ==="
 usermod -aG docker $USERNAME
@@ -58,9 +80,12 @@ usermod -aG docker $USERNAME
 echo "=== Repository einrichten ==="
 sudo -u $USERNAME mkdir -p $APP_DIR
 if [ ! -d "$APP_DIR/.git" ]; then
-  sudo -u $USERNAME git clone $REPO_URL $APP_DIR
+  sudo -u $USERNAME git clone -b $BRANCH --single-branch $REPO_URL $APP_DIR
 else
-  cd $APP_DIR && sudo -u $USERNAME git pull
+  cd $APP_DIR
+  sudo -u $USERNAME git fetch origin
+  sudo -u $USERNAME git checkout $BRANCH
+  sudo -u $USERNAME git pull origin $BRANCH
 fi
 
 cd $APP_DIR
@@ -109,3 +134,7 @@ sudo -u $USERNAME docker compose up -d
 
 echo "=== Installation abgeschlossen ==="
 sudo -u $USERNAME docker compose ps
+
+# Optional: Compose-Version prüfen
+echo "=== Prüfe Docker Compose Version ==="
+docker compose version
