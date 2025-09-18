@@ -5,7 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 USERNAME="uncoded_test"
 APP_DIR="/home/$USERNAME/uncoded-bot"
 REPO_URL="https://github.com/TylonHH/uncoded_docker_installation.git"
-BRANCH="dev"   # <--- hier Branch einstellen (z.B. "main" oder "dev")
+BRANCH="main"   # <--- hier Branch einstellen (z.B. "main" oder "dev")
 ENV_FILE="$APP_DIR/.env"
 
 # Prüfen ob root
@@ -98,7 +98,6 @@ EOF
   apt-get update
   apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 fi
-
 
 echo "=== Benutzer $USERNAME zur docker-Gruppe hinzufügen ==="
 usermod -aG docker $USERNAME
