@@ -2,7 +2,7 @@
 set -e
 export DEBIAN_FRONTEND=noninteractive
 
-USERNAME="uncoded_test"
+USERNAME="uncoded"
 APP_DIR="/home/$USERNAME/uncoded-bot"
 REPO_URL="https://github.com/TylonHH/uncoded_docker_installation.git"
 BRANCH="main"   # <--- hier Branch einstellen (z.B. "main" oder "dev")
