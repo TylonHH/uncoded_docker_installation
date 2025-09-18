@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  database:
+    image: ghcr.io/railwayapp-templates/postgres-ssl:16
+    restart: unless-stopped
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+  trading-bot:
+    image: aureumvictoria/uncoded-trading-bot:latest
+    restart: unless-stopped
+    depends_on:
+      - database
+    env_file:
+      - .env
+
+  telegram-bot:
+    image: aureumvictoria/uncoded-telegram-bot:latest
+    restart: unless-stopped
+    depends_on:
+      - trading-bot
+    env_file:
+      - .env
+
+volumes:
+  database-data:
