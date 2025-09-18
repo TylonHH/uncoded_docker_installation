@@ -168,5 +168,6 @@ sudo -u $USERNAME docker compose up -d
 echo "=== Installation abgeschlossen ==="
 sudo -u $USERNAME docker compose ps
 
-echo "=== Letzte 50 Log-Einträge vom Trading-Bot ==="
-sudo -u $USERNAME docker compose logs --tail=50 trading-bot
+echo "=== Letzte 50 Log-Einträge vom Trading-Bot (live) ==="
+echo "Zum Beenden STRG+C drücken."
+sudo -u $USERNAME docker compose logs -f --tail=50 trading-bot
