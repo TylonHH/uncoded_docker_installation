@@ -3,7 +3,7 @@ set -e
 
 USERNAME="uncoded"
 APP_DIR="/home/$USERNAME/uncoded-bot"
-REPO_URL="https://github.com/deinname/uncoded-bot.git"
+REPO_URL="https://github.com/TylonHH/uncoded_docker_installation.git"
 ENV_FILE="$APP_DIR/.env"
 
 # Prüfen ob root
