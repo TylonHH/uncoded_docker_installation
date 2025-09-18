@@ -141,7 +141,8 @@ ask_value() {
     fi
   done
 
-  eval "$var_name=\"$value\""
+  # Variable global setzen
+  declare -g "$var_name=$value"
 }
 
 ask_value API_KEY "Binance API_KEY"
