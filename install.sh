@@ -6,7 +6,8 @@ USERNAME="uncoded"
 APP_DIR="/home/$USERNAME/uncoded-bot"
 REPO_URL="https://github.com/TylonHH/uncoded_docker_installation.git"
 BRANCH="main"   # <--- hier Branch einstellen (z.B. "main" oder "dev")
-ENV_FILE="$APP_DIR/.env"
+ENV_USER_FILE="$APP_DIR/.env.user"
+ENV_FIXED_FILE="$APP_DIR/.env.fixed"
 
 # Prüfen ob root
 if [ "$(id -u)" -ne 0 ]; then
@@ -115,10 +116,16 @@ fi
 
 cd $APP_DIR
 
-echo "=== ENV-Datei konfigurieren ==="
-if [ -f "$ENV_FILE" ]; then
-  echo ".env existiert schon, überschreibe..."
-  rm "$ENV_FILE"
+echo "=== ENV-Dateien konfigurieren ==="
+# Feste Datei bleibt immer aus Repo
+if [ ! -f "$ENV_FIXED_FILE" ]; then
+  echo "WARNUNG: $ENV_FIXED_FILE fehlt! Bitte aus dem Repo bereitstellen."
+fi
+
+# User-Datei immer neu erstellen
+if [ -f "$ENV_USER_FILE" ]; then
+  echo ".env.user existiert schon, überschreibe..."
+  rm "$ENV_USER_FILE"
 fi
 
 # Funktion für Eingabe mit Wiederholung
@@ -143,7 +150,7 @@ ask_value TELEGRAM_GROUP_ID "Telegram Group ID"
 ask_value TELEGRAM_OWNER_ID "Telegram Owner ID"
 ask_value TELEGRAM_BOT_TOKEN "Telegram Bot Token"
 
-cat <<EOF > "$ENV_FILE"
+cat <<EOF > "$ENV_USER_FILE"
 # --- Automatisch erzeugt ---
 API_KEY=$API_KEY
 API_SECRET=$API_SECRET
@@ -152,7 +159,7 @@ TELEGRAM_OWNER_ID=$TELEGRAM_OWNER_ID
 TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN
 EOF
 
-chown $USERNAME:$USERNAME "$ENV_FILE"
+chown $USERNAME:$USERNAME "$ENV_USER_FILE"
 
 echo "=== Container starten ==="
 sudo -u $USERNAME docker compose up -d
