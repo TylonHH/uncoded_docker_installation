@@ -168,5 +168,5 @@ sudo -u $USERNAME docker compose up -d
 echo "=== Installation abgeschlossen ==="
 sudo -u $USERNAME docker compose ps
 
-echo "=== Prüfe Docker Compose Version ==="
-docker compose version
+echo "=== Letzte 50 Log-Einträge vom Trading-Bot ==="
+sudo -u $USERNAME docker compose logs --tail=50 trading-bot
