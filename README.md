@@ -12,7 +12,8 @@ Dieses Repository richtet den [uncoded-trading-bot](https://t.me/unCoded_bot?sta
 Führe auf deinem Server als root aus:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/TylonHH/uncoded_docker_installation/refs/heads/main/install.sh | sudo bash -i
+wget -O install.sh https://raw.githubusercontent.com/TylonHH/uncoded_docker_installation/refs/heads/main/install.sh
+sudo bash install.sh
 ````
 
 Das Skript fragt nach folgenden Werten:
