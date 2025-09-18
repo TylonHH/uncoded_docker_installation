@@ -5,7 +5,8 @@ services:
     volumes:
       - database-data:/var/lib/postgresql/data
     env_file:
-      - .env
+      - .env.fixed
+      - .env.user
 
   trading-bot:
     image: aureumvictoria/uncoded-trading-bot:latest
@@ -13,7 +14,8 @@ services:
     depends_on:
       - database
     env_file:
-      - .env
+      - .env.fixed
+      - .env.user
 
   telegram-bot:
     image: aureumvictoria/uncoded-telegram-bot:latest
@@ -21,7 +23,8 @@ services:
     depends_on:
       - trading-bot
     env_file:
-      - .env
+      - .env.fixed
+      - .env.user
 
 volumes:
   database-data:
