@@ -3,7 +3,7 @@ set -e
 
 USERNAME="uncoded"
 APP_DIR="/home/$USERNAME/uncoded-bot"
-REPO_URL="https://github.com/deinname/uncoded-bot.git"
+REPO_URL="https://github.com/TylonHH/uncoded_docker_installation.git"
 ENV_FILE="$APP_DIR/.env"
 
 # Prüfen ob root
@@ -69,11 +69,27 @@ if [ -f "$ENV_FILE" ]; then
   rm "$ENV_FILE"
 fi
 
-read -p "Binance API_KEY: " API_KEY
-read -p "Binance API_SECRET: " API_SECRET
-read -p "Telegram Group ID: " TELEGRAM_GROUP_ID
-read -p "Telegram Owner ID: " TELEGRAM_OWNER_ID
-read -p "Telegram Bot Token: " TELEGRAM_BOT_TOKEN
+# Funktion für Eingabe mit Wiederholung
+ask_value() {
+  local var_name=$1
+  local prompt=$2
+  local value=""
+
+  while [ -z "$value" ]; do
+    read -p "$prompt: " value
+    if [ -z "$value" ]; then
+      echo "FEHLER: $var_name darf nicht leer sein!"
+    fi
+  done
+
+  eval "$var_name=\"$value\""
+}
+
+ask_value API_KEY "Binance API_KEY"
+ask_value API_SECRET "Binance API_SECRET"
+ask_value TELEGRAM_GROUP_ID "Telegram Group ID"
+ask_value TELEGRAM_OWNER_ID "Telegram Owner ID"
+ask_value TELEGRAM_BOT_TOKEN "Telegram Bot Token"
 
 cat <<EOF > "$ENV_FILE"
 # --- Automatisch erzeugt ---
