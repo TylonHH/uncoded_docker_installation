@@ -1,11 +1,12 @@
 # uncoded-trading-bot Setup
 
-Dieses Repository richtet den [uncoded-trading-bot](https://t.me/unCoded_bot?start=ref_1203406052) auf einem Ubuntu-Server ein.
+Dieses Repository richtet den [uncoded-trading-bot](https://t.me/unCoded_bot?start=ref_1203406052)* auf einem Ubuntu-Server ein.
 
 ## Voraussetzungen
 
-- Ubuntu (empfohlen)
+- Ubuntu (empfohlen) zum Beispiel bei [netcup](https://www.netcup.com/de/?ref=280996)*
 - Root-Zugang (z. B. via SSH)
+- [Binance Account](https://accounts.binance.com/register?ref=15618672)*
 
 ## Installation
 
@@ -85,3 +86,11 @@ Das Skript macht automatisch:
 
 Anschließend den Bot hier direkt in Telegram starten:
 👉 [uncoded-trading-bot](https://t.me/unCoded_bot?start=ref_1203406052)
+
+## Unterstützung
+
+Du möchtest dich für diese Anleitung bedanken?
+
+<a href="https://www.buymeacoffee.com/WarsoWerk" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+<sup>Die mit Sternchen (*) gekennzeichneten Links sind sogenannte Affiliate-Links</sup>
