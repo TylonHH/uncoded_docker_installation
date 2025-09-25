@@ -87,6 +87,16 @@ Das Skript macht automatisch:
 Anschließend den Bot hier direkt in Telegram starten:
 👉 [uncoded-trading-bot](https://t.me/unCoded_bot?start=ref_1203406052)
 
+## Zugriff auf die postgres Datenbank
+
+port vorher freiegen für eigene IP
+sudo ufw allow from DEINE_IP_ADRESSE to any port 5432 proto tcp
+http://www.dnstools.ch/wie-ist-meine-ip.html
+https://www.pgadmin.org/download/ aber jedes andere Tool für den exterenn Zugriff sollte ähnlich sein.
+Zeile mit Port auskommentieren in der yml
+docker up etc
+
+
 ## Unterstützung
 
 Du möchtest dich für diese Anleitung bedanken?
