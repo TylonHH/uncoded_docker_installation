@@ -7,6 +7,8 @@ services:
     env_file:
       - .env.fixed
       - .env.user
+    ports:
+      - "5432:5432"       
 
   trading-bot:
     image: aureumvictoria/uncoded-trading-bot:latest
