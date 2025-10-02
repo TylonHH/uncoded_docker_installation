@@ -9,7 +9,7 @@ services:
       - .env.user
 
   trading-bot:
-    image: aureumvictoria/uncoded-trading-bot:latest
+    image: aureumvictoria/uncoded-trading-bot:2025.09.09
     restart: unless-stopped
     depends_on:
       - database
@@ -18,7 +18,7 @@ services:
       - .env.user
 
   telegram-bot:
-    image: aureumvictoria/uncoded-telegram-bot:latest
+    image: aureumvictoria/uncoded-telegram-bot:2025.09.21
     restart: unless-stopped
     depends_on:
       - trading-bot
