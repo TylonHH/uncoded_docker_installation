@@ -94,3 +94,7 @@ Du möchtest dich für diese Anleitung bedanken?
 <a href="https://www.buymeacoffee.com/WarsoWerk" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 <sup>Die mit Sternchen (*) gekennzeichneten Links sind sogenannte Affiliate-Links</sup>
+
+## Weitere Projekte
+
+Weitere Repositories findest du hier: [https://github.com/TylonHH](https://github.com/TylonHH)
